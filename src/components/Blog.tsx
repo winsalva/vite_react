@@ -1,4 +1,5 @@
 import blogData from '../../blog.json'
+
 type Blog = {
   id: number,
   title: string,
