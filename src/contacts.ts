@@ -2,9 +2,9 @@ import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 
-export async function getContacts(query) {
+export async function getContacts(query: string) {
   await fakeNetwork(`getContacts:${query}`);
-  let contacts = await localforage.getItem("contacts");
+  let contacts: any[]|null = await localforage.getItem("contacts");
   if (!contacts) contacts = [];
   if (query) {
     contacts = matchSorter(contacts, query, { keys: ["first", "last"] });
@@ -13,7 +13,7 @@ export async function getContacts(query) {
 }
 
 export async function createContact() {
-  await fakeNetwork();
+  await fakeNetwork(null);
   let id = Math.random().toString(36).substring(2, 9);
   let contact = { id, createdAt: Date.now() };
   let contacts = await getContacts();
@@ -22,7 +22,7 @@ export async function createContact() {
   return contact;
 }
 
-export async function getContact(id) {
+export async function getContact(id: string) {
   await fakeNetwork(`contact:${id}`);
   let contacts = await localforage.getItem("contacts");
   let contact = contacts.find(contact => contact.id === id);
@@ -30,7 +30,7 @@ export async function getContact(id) {
 }
 
 export async function updateContact(id, updates) {
-  await fakeNetwork();
+  await fakeNetwork(null);
   let contacts = await localforage.getItem("contacts");
   let contact = contacts.find(contact => contact.id === id);
   if (!contact) throw new Error("No contact found for", id);

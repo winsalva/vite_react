@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 // import locofy from "./locofy.png"
 
 export function Navbar() {

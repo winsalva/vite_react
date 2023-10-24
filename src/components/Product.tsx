@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/***
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 
 export function Products() {
@@ -11,6 +12,7 @@ export function Products() {
         const response = await axios.get('https://dummyjson.com/products');
         setData(response.data);
 
+        ***/
         /***
         const response = {
 	  "products": [
@@ -26,6 +28,7 @@ export function Products() {
 	}
 	setData(response);
 	***/
+	/***
       } catch (error) {
         console.error(error);
       }
@@ -47,3 +50,4 @@ export function Products() {
   )
 }
 
+**/

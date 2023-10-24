@@ -1,17 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+// import App from './App.tsx'
 import './index.css'
 import Root, {
   loader as rootLoader,
   action as rootAction,
 } from "./routes/root";
 
-import ErrorPage from "./error-page";
+import ErrorPage from "./error_page";
 import Index from "./routes/index";
 
 import Contact, {
   loader as contactLoader,
+  action as contactAction
 } from "./routes/contact";
 
 import EditContact, {
@@ -24,9 +25,46 @@ import {
 } from "./routes/destroy";
 
 import {
+  createRoutesFromElements,
+  Route,
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
+
+/***
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+      path="/"
+      element={<Root />}
+      loader={rootLoader}
+      action={rootAction}
+      errorElement={<ErrorPage />}
+    >
+      <Route errorElement={<ErrorPage />}>
+        <Route index element={<Index />} />
+	<Route
+	  path="contacts/:contactID"
+	  element={<Contact />}
+	  loader={contactLoader}
+	  action={contactAction}
+	/>
+	<Route
+	  path="contacts/:contactID/edit"
+	  element={<EditContact />}
+	  loader={editLoader}
+	  action={editAction}
+	/>
+	<Route
+	  path="contacts/:contactID/destroy"
+	  action={destroyAction}
+	/>
+      </Route>
+    </Route>
+  )
+);
+***/
+
 
 const router = createBrowserRouter([
   {
@@ -37,28 +75,35 @@ const router = createBrowserRouter([
     action: rootAction,
     children: [
       {
-        index: true,
-	element: <Index />,
-      },
-      {
-        path: "contacts/:contactID",
-	element: <Contact />,
-	loader: contactLoader,
-      },
-      {
-        path: "contacts/:contactID/edit",
-	element: <EditContact />,
-	action: editAction,
-	loader: editLoader,
-      },
-      {
-        path: "contacts/:contactID/destroy",
-	action: DestroyAction,
-	// errorElement: <div>Oops, There was an error!</div>,
-      },
+        errorElement: <ErrorPage />,
+	children: [
+          {
+            index: true,
+	    element: <Index />,
+          },
+          {
+            path: "contacts/:contactID",
+	    element: <Contact />,
+	    loader: contactLoader,
+	    action: contactAction
+          },
+          {
+            path: "contacts/:contactID/edit",
+	    element: <EditContact />,
+	    action: editAction,
+	    loader: editLoader,
+          },
+          {
+            path: "contacts/:contactID/destroy",
+	    action: DestroyAction,
+	    // errorElement: <div>Oops, There was an error!</div>,
+          },
+	]
+      }
     ]
   },
 ]);
+
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
