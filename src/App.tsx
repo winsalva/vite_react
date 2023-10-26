@@ -1,20 +1,79 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
 
-/*** commenting this out to prevent build errors
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Blog} from './components/Blog'
-// import { Samplepage} from './components/Sc.tsx'
+import Root, {
+  loader as rootLoader,
+  action as rootAction,
+} from "./routes/root";
+
+import ErrorPage from "./error_page";
+import Index from "./routes/index";
+
+import Contact, {
+  loader as contactLoader,
+  action as contactAction
+} from "./routes/contact";
+
+import EditContact, {
+  loader as editLoader,
+  action as editAction,
+} from "./routes/edit";
+
+import {
+  action as DestroyAction,
+} from "./routes/destroy";
+
+import {
+  createRoutesFromElements,
+  Route,
+  createBrowserRouter,
+  RouterProvider
+} from 'react-router-dom';
 
 
-function App() {
-  const [count, setCount] = useState(0)
- 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    loader: rootLoader,
+    action: rootAction,
+    children: [
+      {
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <Index />,
+          },
+          {
+            path: "contacts/:contactID",
+            element: <Contact />,
+            loader: contactLoader,
+            action: contactAction
+          },
+          {
+            path: "contacts/:contactID/edit",
+            element: <EditContact />,
+            action: editAction,
+            loader: editLoader,
+          },
+          {
+            path: "contacts/:contactID/destroy",
+            action: DestroyAction,
+            // errorElement: <div>Oops, There was an error!</div>,
+          },
+        ]
+      }
+    ]
+  },
+]);
+
+function App() { 
   return (
-    <h1>Hello</h1>
+    <RouterProvider router={router} />
   )
 }
 
 export default App
-**/
