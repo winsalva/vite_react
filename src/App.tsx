@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
+
 
 import Root, {
   loader as rootLoader,
@@ -30,6 +30,8 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
+
+import { Calculator } from "./pages/Calculator";
 
 
 const router = createBrowserRouter([
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: "/calculator",
+    element: <Calculator />,
+  }
 ]);
 
 function App() { 
